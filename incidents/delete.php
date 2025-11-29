@@ -48,7 +48,7 @@ include '../includes/header.php';
             <p><strong>Description:</strong> <?php echo htmlspecialchars($incident['description']); ?></p>
         </div>
         
-        <form method="POST" action="">
+        <form method="POST" action="delete.php?id=<?php echo $incident['id']; ?>">
             <div class="form-actions">
                 <button type="submit" class="btn btn-danger">Yes, Delete Incident</button>
                 <a href="read.php" class="btn btn-secondary">Cancel</a>

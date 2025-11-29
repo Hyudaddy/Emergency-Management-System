@@ -52,7 +52,7 @@ include '../includes/header.php';
 <?php endif; ?>
 
 <?php if ($incident): ?>
-    <form method="POST" action="">
+    <form method="POST" action="update.php?id=<?php echo $incident['id']; ?>">
         <div class="form-group">
             <label for="incident_name">Incident Name:</label>
             <input type="text" id="incident_name" name="incident_name" required value="<?php echo htmlspecialchars($incident['incident_name']); ?>">

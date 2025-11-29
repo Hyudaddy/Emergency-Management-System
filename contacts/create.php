@@ -35,7 +35,7 @@ include '../includes/header.php';
     </div>
 <?php endif; ?>
 
-<form method="POST" action="">
+<form method="POST" action="create.php">
     <div class="form-group">
         <label for="first_name">First Name:</label>
         <input type="text" id="first_name" name="first_name" required value="<?php echo isset($_POST['first_name']) ? htmlspecialchars($_POST['first_name']) : ''; ?>">

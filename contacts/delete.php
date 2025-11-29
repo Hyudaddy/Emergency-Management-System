@@ -49,7 +49,7 @@ include '../includes/header.php';
             <p><strong>Zip Code:</strong> <?php echo htmlspecialchars($contact['zip_code']); ?></p>
         </div>
         
-        <form method="POST" action="">
+        <form method="POST" action="delete.php?id=<?php echo $contact['id']; ?>">
             <div class="form-actions">
                 <button type="submit" class="btn btn-danger">Yes, Delete Contact</button>
                 <a href="read.php" class="btn btn-secondary">Cancel</a>
