@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($page_title) ? $page_title : 'Emergency Contact System'; ?></title>
-    <link rel="stylesheet" href="/EMERGENCY%20MANAGEMENT%20SYSTEM/assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -364,17 +364,17 @@
             </div>
             
             <ul class="sidebar-menu">
-                <li><a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/index.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'index.php') ? 'active' : ''; ?>"><i>⌂</i> <span>Dashboard</span></a></li>
-                <li><a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/contacts/read.php" class="<?php echo (strpos($_SERVER['PHP_SELF'], '/contacts/') !== false) ? 'active' : ''; ?>"><i>☎</i> <span>Contacts</span></a></li>
-                <li><a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/incidents/read.php" class="<?php echo (strpos($_SERVER['PHP_SELF'], '/incidents/') !== false) ? 'active' : ''; ?>"><i>!</i> <span>Incidents</span></a></li>
-                <li><a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/query_console.php"><i>?</i> <span>Query Console</span></a></li>
+                <li><a href="../index.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'index.php') ? 'active' : ''; ?>"><i>⌂</i> <span>Dashboard</span></a></li>
+                <li><a href="../contacts/read.php" class="<?php echo (strpos($_SERVER['PHP_SELF'], '/contacts/') !== false) ? 'active' : ''; ?>"><i>☎</i> <span>Contacts</span></a></li>
+                <li><a href="../incidents/read.php" class="<?php echo (strpos($_SERVER['PHP_SELF'], '/incidents/') !== false) ? 'active' : ''; ?>"><i>!</i> <span>Incidents</span></a></li>
+                <li><a href="../query_console.php"><i>?</i> <span>Query Console</span></a></li>
             </ul>
             
             <?php if (isset($_SESSION['username'])): ?>
             <div class="user-info">
                 <div class="username"><?php echo htmlspecialchars($_SESSION['username']); ?></div>
                 <div class="role"><?php echo isset($_SESSION['role']) ? ucfirst($_SESSION['role']) : 'User'; ?></div>
-                <a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/logout.php" class="logout-link">Logout</a>
+                <a href="../logout.php" class="logout-link">Logout</a>
             </div>
             <?php endif; ?>
         </div>
