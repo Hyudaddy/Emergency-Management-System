@@ -80,7 +80,7 @@ include '../includes/header.php';
     
     <div class="form-actions">
         <button type="submit" class="btn btn-primary">Create Contact</button>
-        <a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/contacts/read.php" class="btn btn-secondary">Back to Contacts</a>
+        <a href="read.php" class="btn btn-secondary">Back to Contacts</a>
     </div>
 </form>
 

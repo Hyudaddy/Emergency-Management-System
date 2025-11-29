@@ -22,7 +22,7 @@ include '../includes/header.php';
 ?>
 
 <div class="actions-bar">
-    <a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/incidents/create.php" class="btn btn-primary">Add New Incident</a>
+    <a href="create.php" class="btn btn-primary">Add New Incident</a>
 </div>
 
 <?php if (count($incidents) > 0): ?>
@@ -46,8 +46,8 @@ include '../includes/header.php';
                     <td><?php echo htmlspecialchars($incident['status']); ?></td>
                     <td><?php echo htmlspecialchars($incident['start_date']); ?></td>
                     <td>
-                        <a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/incidents/update.php?id=<?php echo $incident['id']; ?>" class="btn btn-small btn-secondary">Edit</a>
-                        <a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/incidents/delete.php?id=<?php echo $incident['id']; ?>" class="btn btn-small btn-danger" onclick="return confirm('Are you sure you want to delete this incident?')">Delete</a>
+                        <a href="update.php?id=<?php echo $incident['id']; ?>" class="btn btn-small btn-secondary">Edit</a>
+                        <a href="delete.php?id=<?php echo $incident['id']; ?>" class="btn btn-small btn-danger" onclick="return confirm('Are you sure you want to delete this incident?')">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -55,7 +55,7 @@ include '../includes/header.php';
     </table>
 <?php else: ?>
     <div class="no-data">
-        <p>No incidents found. <a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/incidents/create.php">Create your first incident</a>.</p>
+        <p>No incidents found. <a href="create.php">Create your first incident</a>.</p>
     </div>
 <?php endif; ?>
 

@@ -22,7 +22,7 @@ include '../includes/header.php';
 ?>
 
 <div class="actions-bar">
-    <a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/contacts/create.php" class="btn btn-primary">Add New Contact</a>
+    <a href="create.php" class="btn btn-primary">Add New Contact</a>
 </div>
 
 <?php if (count($contacts) > 0): ?>
@@ -44,8 +44,8 @@ include '../includes/header.php';
                     <td><?php echo htmlspecialchars($contact['email']); ?></td>
                     <td><?php echo htmlspecialchars($contact['city'] . ', ' . $contact['state']); ?></td>
                     <td>
-                        <a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/contacts/update.php?id=<?php echo $contact['id']; ?>" class="btn btn-small btn-secondary">Edit</a>
-                        <a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/contacts/delete.php?id=<?php echo $contact['id']; ?>" class="btn btn-small btn-danger" onclick="return confirm('Are you sure you want to delete this contact?')">Delete</a>
+                        <a href="update.php?id=<?php echo $contact['id']; ?>" class="btn btn-small btn-secondary">Edit</a>
+                        <a href="delete.php?id=<?php echo $contact['id']; ?>" class="btn btn-small btn-danger" onclick="return confirm('Are you sure you want to delete this contact?')">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -53,7 +53,7 @@ include '../includes/header.php';
     </table>
 <?php else: ?>
     <div class="no-data">
-        <p>No contacts found. <a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/contacts/create.php">Create your first contact</a>.</p>
+        <p>No contacts found. <a href="create.php">Create your first contact</a>.</p>
     </div>
 <?php endif; ?>
 

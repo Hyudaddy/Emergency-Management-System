@@ -51,7 +51,7 @@ include '../includes/header.php';
         <form method="POST" action="">
             <div class="form-actions">
                 <button type="submit" class="btn btn-danger">Yes, Delete Incident</button>
-                <a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/incidents/read.php" class="btn btn-secondary">Cancel</a>
+                <a href="read.php" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>
@@ -60,13 +60,13 @@ include '../includes/header.php';
         <p>Incident not found.</p>
     </div>
     <div class="form-actions">
-        <a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/incidents/read.php" class="btn btn-secondary">Back to Incidents</a>
+        <a href="read.php" class="btn btn-secondary">Back to Incidents</a>
     </div>
 <?php endif; ?>
 
 <?php if ($success): ?>
     <div class="form-actions">
-        <a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/incidents/read.php" class="btn btn-primary">Back to Incidents</a>
+        <a href="read.php" class="btn btn-primary">Back to Incidents</a>
     </div>
 <?php endif; ?>
 

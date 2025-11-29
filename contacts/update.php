@@ -98,7 +98,7 @@ include '../includes/header.php';
         
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Update Contact</button>
-            <a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/contacts/read.php" class="btn btn-secondary">Back to Contacts</a>
+            <a href="read.php" class="btn btn-secondary">Back to Contacts</a>
         </div>
     </form>
 <?php elseif (!$message): ?>
@@ -106,7 +106,7 @@ include '../includes/header.php';
         <p>Contact not found.</p>
     </div>
     <div class="form-actions">
-        <a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/contacts/read.php" class="btn btn-secondary">Back to Contacts</a>
+        <a href="read.php" class="btn btn-secondary">Back to Contacts</a>
     </div>
 <?php endif; ?>
 

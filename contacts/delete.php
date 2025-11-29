@@ -52,7 +52,7 @@ include '../includes/header.php';
         <form method="POST" action="">
             <div class="form-actions">
                 <button type="submit" class="btn btn-danger">Yes, Delete Contact</button>
-                <a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/contacts/read.php" class="btn btn-secondary">Cancel</a>
+                <a href="read.php" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>
@@ -61,13 +61,13 @@ include '../includes/header.php';
         <p>Contact not found.</p>
     </div>
     <div class="form-actions">
-        <a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/contacts/read.php" class="btn btn-secondary">Back to Contacts</a>
+        <a href="read.php" class="btn btn-secondary">Back to Contacts</a>
     </div>
 <?php endif; ?>
 
 <?php if ($success): ?>
     <div class="form-actions">
-        <a href="/EMERGENCY%20MANAGEMENT%20SYSTEM/contacts/read.php" class="btn btn-primary">Back to Contacts</a>
+        <a href="read.php" class="btn btn-primary">Back to Contacts</a>
     </div>
 <?php endif; ?>
 
