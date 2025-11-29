@@ -53,7 +53,7 @@ include '../includes/header.php';
 <?php endif; ?>
 
 <?php if ($contact): ?>
-    <form method="POST" action="update.php?id=<?php echo $contact['id']; ?>">
+    <form method="POST" action="contacts/update.php?id=<?php echo $contact['id']; ?>">
         <div class="form-group">
             <label for="first_name">First Name:</label>
             <input type="text" id="first_name" name="first_name" required value="<?php echo htmlspecialchars($contact['first_name']); ?>">
@@ -98,7 +98,7 @@ include '../includes/header.php';
         
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Update Contact</button>
-            <a href="read.php" class="btn btn-secondary">Back to Contacts</a>
+            <a href="contacts/read.php" class="btn btn-secondary">Back to Contacts</a>
         </div>
     </form>
 <?php elseif (!$message): ?>
@@ -106,7 +106,7 @@ include '../includes/header.php';
         <p>Contact not found.</p>
     </div>
     <div class="form-actions">
-        <a href="read.php" class="btn btn-secondary">Back to Contacts</a>
+        <a href="contacts/read.php" class="btn btn-secondary">Back to Contacts</a>
     </div>
 <?php endif; ?>
 
