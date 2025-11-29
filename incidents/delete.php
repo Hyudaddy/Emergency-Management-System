@@ -48,10 +48,10 @@ include '../includes/header.php';
             <p><strong>Description:</strong> <?php echo htmlspecialchars($incident['description']); ?></p>
         </div>
         
-        <form method="POST" action="delete.php?id=<?php echo $incident['id']; ?>">
+        <form method="POST" action="incidents/delete.php?id=<?php echo $incident['id']; ?>">
             <div class="form-actions">
                 <button type="submit" class="btn btn-danger">Yes, Delete Incident</button>
-                <a href="read.php" class="btn btn-secondary">Cancel</a>
+                <a href="incidents/read.php" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>
@@ -60,13 +60,13 @@ include '../includes/header.php';
         <p>Incident not found.</p>
     </div>
     <div class="form-actions">
-        <a href="read.php" class="btn btn-secondary">Back to Incidents</a>
+        <a href="incidents/read.php" class="btn btn-secondary">Back to Incidents</a>
     </div>
 <?php endif; ?>
 
 <?php if ($success): ?>
     <div class="form-actions">
-        <a href="read.php" class="btn btn-primary">Back to Incidents</a>
+        <a href="incidents/read.php" class="btn btn-primary">Back to Incidents</a>
     </div>
 <?php endif; ?>
 

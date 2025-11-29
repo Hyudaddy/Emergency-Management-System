@@ -52,7 +52,7 @@ include '../includes/header.php';
 <?php endif; ?>
 
 <?php if ($incident): ?>
-    <form method="POST" action="update.php?id=<?php echo $incident['id']; ?>">
+    <form method="POST" action="incidents/update.php?id=<?php echo $incident['id']; ?>">
         <div class="form-group">
             <label for="incident_name">Incident Name:</label>
             <input type="text" id="incident_name" name="incident_name" required value="<?php echo htmlspecialchars($incident['incident_name']); ?>">
@@ -94,7 +94,7 @@ include '../includes/header.php';
         
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Update Incident</button>
-            <a href="read.php" class="btn btn-secondary">Back to Incidents</a>
+            <a href="incidents/read.php" class="btn btn-secondary">Back to Incidents</a>
         </div>
     </form>
 <?php elseif (!$message): ?>
@@ -102,7 +102,7 @@ include '../includes/header.php';
         <p>Incident not found.</p>
     </div>
     <div class="form-actions">
-        <a href="read.php" class="btn btn-secondary">Back to Incidents</a>
+        <a href="incidents/read.php" class="btn btn-secondary">Back to Incidents</a>
     </div>
 <?php endif; ?>
 
