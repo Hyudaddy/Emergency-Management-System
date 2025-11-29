@@ -35,7 +35,7 @@ include '../includes/header.php';
     </div>
 <?php endif; ?>
 
-<form method="POST" action="create.php">
+<form method="POST" action="contacts/create.php">
     <div class="form-group">
         <label for="first_name">First Name:</label>
         <input type="text" id="first_name" name="first_name" required value="<?php echo isset($_POST['first_name']) ? htmlspecialchars($_POST['first_name']) : ''; ?>">
@@ -80,7 +80,7 @@ include '../includes/header.php';
     
     <div class="form-actions">
         <button type="submit" class="btn btn-primary">Create Contact</button>
-        <a href="read.php" class="btn btn-secondary">Back to Contacts</a>
+        <a href="contacts/read.php" class="btn btn-secondary">Back to Contacts</a>
     </div>
 </form>
 
