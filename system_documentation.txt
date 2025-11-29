@@ -1,0 +1,437 @@
+EMERGENCY CONTACT INFORMATION MANAGEMENT SYSTEM
+============================================
+
+1. INTRODUCTION
+===============
+
+a. System Overview
+------------------
+The Emergency Contact Information Management System is a web-based application designed for disaster response teams to manage emergency contact information and track incidents. The system provides a centralized platform for storing, organizing, and accessing critical contact information during emergency situations.
+
+Key features include:
+- User authentication system with secure login and registration
+- Contact management (add, edit, view, delete emergency contacts)
+- Incident tracking and management
+- Category-based organization of contacts
+- Communication preference management
+- SQL query console for database operations
+- Dashboard with statistics and visualizations
+
+b. System Objectives
+--------------------
+1. Provide a secure platform for managing emergency contact information
+2. Enable efficient tracking and management of emergency incidents
+3. Facilitate quick access to critical contact information during emergencies
+4. Support categorization and organization of contacts for better management
+5. Offer communication preference tracking for optimal contact methods
+6. Provide reporting and analytics capabilities for incident management
+7. Ensure data integrity and security through user authentication
+
+c. Scope of the System
+----------------------
+The system covers the following functional areas:
+- User Management: Registration, authentication, and session management
+- Contact Management: CRUD operations for emergency contacts
+- Incident Management: Tracking and managing emergency incidents
+- Category Management: Organizing contacts into logical groups
+- Communication Management: Tracking preferred communication methods
+- Reporting: Dashboard with statistics and visualizations
+- Query Console: Direct SQL query execution for advanced users
+
+d. System Flow Chart
+--------------------
+graph TD
+    A[User Access] --> B[Login/Register]
+    B --> C{Authentication}
+    C -->|Valid| D[Dashboard]
+    C -->|Invalid| B
+    D --> E[Contact Management]
+    D --> F[Incident Management]
+    D --> G[Query Console]
+    E --> H[Add/Edit/Delete Contacts]
+    F --> I[Track Incidents]
+    G --> J[Execute SQL Queries]
+    H --> K[Database]
+    I --> K
+    J --> K
+    K --> L[Data Storage]
+
+2. DATABASE DESIGN
+==================
+
+a. Database Schema / Table Structure
+------------------------------------
+The system uses a MySQL database with the following tables:
+
+1. contacts: Stores contact information
+   - id (INT, PRIMARY KEY, AUTO_INCREMENT)
+   - first_name (VARCHAR(50), NOT NULL)
+   - last_name (VARCHAR(50), NOT NULL)
+   - phone_number (VARCHAR(20))
+   - email (VARCHAR(100))
+   - address (TEXT)
+   - city (VARCHAR(50))
+   - state (VARCHAR(50))
+   - zip_code (VARCHAR(10))
+   - date_added (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP)
+   - last_updated (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)
+
+2. contact_categories: Categories for organizing contacts
+   - id (INT, PRIMARY KEY, AUTO_INCREMENT)
+   - category_name (VARCHAR(50), NOT NULL, UNIQUE)
+   - description (TEXT)
+
+3. contact_category_assignments: Links contacts to categories (many-to-many relationship)
+   - contact_id (INT, FOREIGN KEY to contacts.id)
+   - category_id (INT, FOREIGN KEY to contact_categories.id)
+   - PRIMARY KEY (contact_id, category_id)
+
+4. communication_methods: Available communication methods
+   - id (INT, PRIMARY KEY, AUTO_INCREMENT)
+   - method_name (VARCHAR(50), NOT NULL, UNIQUE)
+   - description (TEXT)
+
+5. contact_communication_preferences: Preferred communication methods for contacts
+   - id (INT, PRIMARY KEY, AUTO_INCREMENT)
+   - contact_id (INT, FOREIGN KEY to contacts.id)
+   - method_id (INT, FOREIGN KEY to communication_methods.id)
+   - priority_level (INT)
+   - is_primary (BOOLEAN, DEFAULT FALSE)
+   - notes (TEXT)
+
+6. emergency_incidents: Tracks emergency incidents
+   - id (INT, PRIMARY KEY, AUTO_INCREMENT)
+   - incident_name (VARCHAR(100), NOT NULL)
+   - incident_type (VARCHAR(50))
+   - description (TEXT)
+   - location (VARCHAR(100))
+   - start_date (DATETIME)
+   - end_date (DATETIME)
+   - status (ENUM('active', 'resolved', 'closed'), DEFAULT 'active')
+   - date_created (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP)
+   - last_updated (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)
+
+7. contact_logs: Records communication attempts
+   - id (INT, PRIMARY KEY, AUTO_INCREMENT)
+   - contact_id (INT, FOREIGN KEY to contacts.id)
+   - incident_id (INT, FOREIGN KEY to emergency_incidents.id)
+   - interaction_date (DATETIME)
+   - communication_method (VARCHAR(50))
+   - notes (TEXT)
+   - status (ENUM('attempted', 'successful', 'failed'), DEFAULT 'attempted')
+   - follow_up_required (BOOLEAN, DEFAULT FALSE)
+   - date_created (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP)
+
+8. users: System user accounts with roles
+   - id (INT, PRIMARY KEY, AUTO_INCREMENT)
+   - username (VARCHAR(50), NOT NULL, UNIQUE)
+   - email (VARCHAR(100), NOT NULL, UNIQUE)
+   - password_hash (VARCHAR(255), NOT NULL)
+   - first_name (VARCHAR(50), NOT NULL)
+   - last_name (VARCHAR(50), NOT NULL)
+   - role (ENUM('admin', 'responder', 'viewer'), DEFAULT 'responder')
+   - is_active (BOOLEAN, DEFAULT TRUE)
+   - last_login (TIMESTAMP, NULL)
+   - date_created (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP)
+   - last_updated (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)
+
+9. user_sessions: Secure session tracking
+   - id (INT, PRIMARY KEY, AUTO_INCREMENT)
+   - user_id (INT, NOT NULL, FOREIGN KEY to users.id)
+   - session_token (VARCHAR(255), NOT NULL, UNIQUE)
+   - expires_at (TIMESTAMP, NOT NULL)
+   - created_at (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP)
+
+b. MySQL Script in creating each of the table
+--------------------------------------------
+-- Emergency Contact Information Management System
+-- Database Schema
+
+CREATE DATABASE IF NOT EXISTS emergency_contact_system;
+USE emergency_contact_system;
+
+-- Table for storing contact information
+CREATE TABLE contacts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    phone_number VARCHAR(20),
+    email VARCHAR(100),
+    address TEXT,
+    city VARCHAR(50),
+    state VARCHAR(50),
+    zip_code VARCHAR(10),
+    date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table for contact categories/groups
+CREATE TABLE contact_categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(50) NOT NULL UNIQUE,
+    description TEXT
+);
+
+-- Junction table for contacts and categories (many-to-many relationship)
+CREATE TABLE contact_category_assignments (
+    contact_id INT,
+    category_id INT,
+    PRIMARY KEY (contact_id, category_id),
+    FOREIGN KEY (contact_id) REFERENCES contacts(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES contact_categories(id) ON DELETE CASCADE
+);
+
+-- Table for communication methods
+CREATE TABLE communication_methods (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    method_name VARCHAR(50) NOT NULL UNIQUE,
+    description TEXT
+);
+
+-- Table for contact communication preferences
+CREATE TABLE contact_communication_preferences (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    contact_id INT,
+    method_id INT,
+    priority_level INT,
+    is_primary BOOLEAN DEFAULT FALSE,
+    notes TEXT,
+    FOREIGN KEY (contact_id) REFERENCES contacts(id) ON DELETE CASCADE,
+    FOREIGN KEY (method_id) REFERENCES communication_methods(id) ON DELETE CASCADE
+);
+
+-- Table for emergency incidents/events
+CREATE TABLE emergency_incidents (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    incident_name VARCHAR(100) NOT NULL,
+    incident_type VARCHAR(50),
+    description TEXT,
+    location VARCHAR(100),
+    start_date DATETIME,
+    end_date DATETIME,
+    status ENUM('active', 'resolved', 'closed') DEFAULT 'active',
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table for contact interaction logs
+CREATE TABLE contact_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    contact_id INT,
+    incident_id INT,
+    interaction_date DATETIME,
+    communication_method VARCHAR(50),
+    notes TEXT,
+    status ENUM('attempted', 'successful', 'failed') DEFAULT 'attempted',
+    follow_up_required BOOLEAN DEFAULT FALSE,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (contact_id) REFERENCES contacts(id) ON DELETE CASCADE,
+    FOREIGN KEY (incident_id) REFERENCES emergency_incidents(id) ON DELETE SET NULL
+);
+
+-- Table for system users (administrators/responders)
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    role ENUM('admin', 'responder', 'viewer') DEFAULT 'responder',
+    is_active BOOLEAN DEFAULT TRUE,
+    last_login TIMESTAMP NULL,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table for user sessions
+CREATE TABLE user_sessions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    session_token VARCHAR(255) NOT NULL UNIQUE,
+    expires_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+3. DATABASE IMPLEMENTATION
+==========================
+
+a. Database Connection
+----------------------
+The system uses PHP Data Objects (PDO) for database connectivity:
+
+<?php
+// Database configuration
+$servername = "localhost";
+$username = "root";  // Default XAMPP username
+$password = "";      // Default XAMPP password (empty)
+$dbname = "emergency_contact_system";
+$port = 3308;  // XAMPP MySQL port
+
+// Create connection
+try {
+    $pdo = new PDO("mysql:host=$servername;port=$port;dbname=$dbname;charset=utf8", $username, $password);
+    // Set the PDO error mode to exception
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
+?>
+
+b. FrontEnd Libraries Applied
+-----------------------------
+The system uses the following frontend technologies:
+
+1. HTML5: Markup language for structuring web pages
+2. CSS3: Styling language for presentation and layout
+3. JavaScript: Programming language for client-side functionality
+4. Chart.js: JavaScript library for data visualization and dashboard charts
+
+c. BackEnd Libraries Applied
+---------------------------
+The system uses the following backend technologies:
+
+1. PHP: Server-side scripting language for backend logic
+2. PDO (PHP Data Objects): Database access layer for MySQL connectivity
+3. MySQL: Database management system for data storage
+4. Session Management: PHP built-in session handling for user authentication
+
+d. CRUD End Points
+------------------
+The system implements CRUD operations through direct page access rather than REST API endpoints:
+
+Contact Management CRUD Operations:
+Operation | Method | Endpoint/Page        | Description
+---------|--------|----------------------|------------------------
+Create   | POST   | /contacts/create.php | Add a new contact
+Read     | GET    | /contacts/read.php   | Retrieve all contacts
+Read     | GET    | /contacts/view.php   | View a specific contact
+Update   | POST   | /contacts/update.php | Edit a contact
+Delete   | POST   | /contacts/delete.php | Delete a contact
+
+Incident Management CRUD Operations:
+Operation | Method | Endpoint/Page         | Description
+---------|--------|-----------------------|------------------------
+Create   | POST   | /incidents/create.php | Add a new incident
+Read     | GET    | /incidents/read.php   | Retrieve all incidents
+Read     | GET    | /incidents/view.php   | View a specific incident
+Update   | POST   | /incidents/update.php | Edit an incident
+Delete   | POST   | /incidents/delete.php | Delete an incident
+
+User Management CRUD Operations:
+Operation | Method | Endpoint/Page        | Description
+---------|--------|----------------------|------------------------
+Create   | POST   | /register.php        | Register a new user
+Read     | GET    | /login.php           | User login
+Update   | POST   | /profile.php         | Update user profile
+Delete   | POST   | /users/delete.php    | Delete user account
+
+FLOW of execution:
+1. User accesses a page (e.g., contacts/read.php)
+2. Page loads and connects to database via db_connection.php
+3. Functions in functions.php are called to retrieve data
+4. Data is processed and displayed in HTML templates
+5. User interactions (form submissions) send POST data to processing pages
+6. Processing pages validate data and perform database operations
+7. User is redirected to appropriate pages with success/error messages
+
+4. DATABASE TESTING
+===================
+
+Data Validation Rules:
+1. Required Fields Validation: All essential fields (first name, last name, etc.) must be filled
+2. Email Format Validation: Email addresses must follow valid email format
+3. Password Length Validation: Passwords must be at least 6 characters long
+
+(Note: As this is a documentation file, actual screenshots and detailed testing procedures would be included in a complete implementation)
+
+5. SELECT QUERIES
+=================
+
+a. Basic Select Query
+---------------------
+SELECT * FROM contacts;
+
+b. Selecting Specific Columns
+-----------------------------
+SELECT first_name, last_name, phone_number FROM contacts;
+
+c. Using WHERE Clause
+---------------------
+SELECT * FROM contacts WHERE city = 'Anytown';
+
+d. Using ORDER BY Clause
+------------------------
+SELECT * FROM contacts ORDER BY last_name, first_name;
+
+e. Using DISTINCT Keyword
+-------------------------
+SELECT DISTINCT city FROM contacts;
+
+f. Using LIMIT (MySQL)
+----------------------
+SELECT * FROM contacts LIMIT 5;
+
+g. Using LIKE Operator (Pattern Matching)
+-----------------------------------------
+SELECT * FROM contacts WHERE last_name LIKE 'S%';
+
+h. Using BETWEEN Operator
+-------------------------
+SELECT * FROM contacts WHERE id BETWEEN 1 AND 3;
+
+i. Using IN Operator
+--------------------
+SELECT * FROM contacts WHERE city IN ('Anytown', 'Othertown');
+
+j. Using AND / OR Conditions
+----------------------------
+SELECT * FROM contacts WHERE city = 'Anytown' AND state = 'CA';
+SELECT * FROM contacts WHERE city = 'Anytown' OR city = 'Othertown';
+
+k. Using Aggregate Functions
+----------------------------
+i. COUNT
+SELECT COUNT(*) AS total_contacts FROM contacts;
+
+ii. MAX
+SELECT MAX(id) AS max_contact_id FROM contacts;
+
+iii. MIN
+SELECT MIN(id) AS min_contact_id FROM contacts;
+
+l. Using GROUP BY
+-----------------
+SELECT city, COUNT(*) AS contact_count FROM contacts GROUP BY city;
+
+m. Using HAVING Clause
+----------------------
+SELECT city, COUNT(*) AS contact_count FROM contacts GROUP BY city HAVING COUNT(*) > 1;
+
+n. Using Aliases
+----------------
+SELECT first_name AS "First Name", last_name AS "Last Name", phone_number AS "Phone" FROM contacts;
+
+Join Queries
+------------
+Get contacts with their categories:
+SELECT c.first_name, c.last_name, cc.category_name 
+FROM contacts c
+JOIN contact_category_assignments ca ON c.id = ca.contact_id
+JOIN contact_categories cc ON ca.category_id = cc.id;
+
+Get incidents with their status:
+SELECT incident_name, incident_type, status FROM emergency_incidents;
+
+Complex query to get contact information with categories:
+SELECT 
+    c.first_name,
+    c.last_name,
+    c.phone_number,
+    c.email,
+    cc.category_name
+FROM contacts c
+LEFT JOIN contact_category_assignments ca ON c.id = ca.contact_id
+LEFT JOIN contact_categories cc ON ca.category_id = cc.id
+ORDER BY c.last_name, c.first_name;
